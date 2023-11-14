@@ -1,0 +1,11 @@
+server:
+  port: 8761
+  ##포트번호 바꿈   ->   discovery -server  - jong ha
+
+spring:
+  application:
+    name: discovery-server
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

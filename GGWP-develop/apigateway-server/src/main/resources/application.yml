@@ -1,0 +1,82 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: apigateway-server
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations: # 오타 수정: corsConfigurations
+          '[/**]':
+            allowedOrigins: "http://localhost:8333" # 오타 수정: allowedOrigins
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin, Access-Control-Allow-Credentials # 오타 수정: Access-Control-Allow-Origin
+        - name: GlobalFilter
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
+
+            routes:
+              - id: squad-service
+                uri: lb://SQUAD-SERVICE
+                predicates:
+                  - Path=/Squad-service/**
+              # 추가된 라우트들
+              - id: user-server-admin
+                uri: lb://USER-SERVER
+                predicates:
+                  - Path=/user-server/admin/**
+                filters:
+                  - CustomAuthFilter
+
+              - id: user-server-user
+                uri: lb://USER-SERVER
+                predicates:
+                  - Path=/user-server/user/**
+                filters:
+                  - CustomAuthFilter
+
+
+              - id: user-server-auth
+                uri: lb://USER-SERVER
+                predicates:
+                  - Path=/user-server/auth/**
+              - id: auth-server
+                uri: lb://AUTH-SERVER
+                predicates:
+                  - Path=/auth-server/auth/**
+              - id: front-server
+                uri: lb://FRONT-SERVER
+                predicates:
+                  - Path=/**
+
+
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://127.0.0.1:8761/eureka
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+
+
+management:
+  endpoints:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include:
+          - "apigateway-server"
