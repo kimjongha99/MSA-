@@ -1,0 +1,83 @@
+1. JWT(JSON Web Token)란?
+JWT는 인증에 필요한 정보들을 암호화 시킨 JSON 토큰을 의미합니다.
+
+따라서 JWT를 이용한 인증은 유저를 인증하고 식별하기 위한 Token 기반 인증입니다.
+
+JWT는 JSON 데이터를 Base64 URL-safe Encode를 통해 인코딩하여 직렬화한 것이고,
+
+토큰 내부에는 개인키를 통한 전자서명이 들어있습니다.
+
+
+토큰 기반 인증에서 토큰은
+
+토큰 자체에 사용자의 정보들이 포함되어 있다는 점(Self-contained)이 특징
+
+
+1. 사용자가 로그인 시 로그인 아이디, 패스워드를 담아 서버에 요청
+
+2. 서버에서 서명된(Signed) JWT 토큰을 생성하여 클라이언트에 응답으로 반환
+
+3. 클라이언트는 응답으로 반환된 JWT 토큰을 사용하여 요청 시 마다 Http Header에 JWT를 담아 요청
+
+4. 서버에서는 요청된 Http Header의 JWT를 검증하여 토큰이 유효한지 검증 후 유효하다면 요청에 맞는 응답 반환\
+
+
+
+1. JWT 토큰을 클라이언트가 서버에 요청 시 Http Header에 담아 요청합니다.
+
+2. 서버에서 Http Header의 JWT 토큰을 꺼내서 가져옵니다.
+
+3. 클라이언트가 요청한 JWT 토큰을 서버가 가지고 있는 개인키를 가지고 Signature를 복호화합니다.
+
+4. 복호화한 Signature의 base64UrlEncode(header)/base64UrlEncode(payload)가
+	각각 요청한 JWT 토큰의 header, payload와 일치하는지 검증합니다.
+
+5. 일치한다면 인증을 허용하고, 일치하지 않는다면 인증이 실패합니다.
+
+
+1. AccessToken
+처음 로그인 요청 시 서버에서 실제 유저의 정보가 담긴 AccessToken을 발행합니다.
+클라이언트는 이 AccessToken을 저장한 후, 요청마다 AccessToken을 보내서
+해당 AccessToken을 서버에서 검증 후 유효하면 요청에 맞는 응답을 진행합니다.
+
+2. RefreshToken
+처음 로그인 요청 시 서버에서 AccessToken 재발급 용도인 RefreshToken을 발행합니다.
+이때, 클라이언트는 RefreshToken을 저장하지 않고 RefreshToken은 보통 서버 DB에 저장됩니다.
+RefreshToken이 유효하면, AccessToken의 재발급을 진행합니다.
+
+
+
+
+
+
+## 이번 챕터에서는 자체 JSON 로그인 관련 클래스들을 커스텀해보겠습니다
+저는 자체 로그인 시 일반 Form Login이 아닌,
+
+아이디와 비밀번호를 JSON 형식으로 RequestBody로 보내는 로그인 방식을 구현할 것입니다.
+
+Copy
+{
+    "email" : "aaa@bbb.com"
+    "password" : "test123"
+}
+이런 식으로, JSON으로 Email, Password를 보내 로그인을 하는 로그인 방식을 구현할 것입니다.
+
+
+
+
+
+Spring Security에서는 일반 Form Login을 기본적으로 제공하지만,
+
+JSON 형식의 RequestBody로 하는 로그인 방식은 기본적으로 제공하지 않습니다.
+
+|
+
+UserDetails 객체를 반환하는 UserDetailsService를 커스텀하여 구현해야합니다.
+
+구현해야 하는 로직은 다음과 같습니다.
+
+Copy
+1. DaoAuthenticationProvider가 꺼내어 파라미터로 설정해준 username(email)로
+   DB의 해당하는 User 찾는 로직
+
+2. 해당 유저의 username(email), password, Role을 담아서 UserDetails의 User 객체를 생성하는 로직

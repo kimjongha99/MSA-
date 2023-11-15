@@ -2,7 +2,7 @@ spring:
   application:
     name: member-service
   profiles:
-    active: db
+    active: db,jwt,oauth
   datasource:
     driver-class-name: ${driver-class-name}
     url: ${url}

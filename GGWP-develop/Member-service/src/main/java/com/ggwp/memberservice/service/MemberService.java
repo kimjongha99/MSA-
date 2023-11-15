@@ -16,7 +16,13 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     // 회원가입
-    public void createUser(RequestCreateMemberDto requestCreateMemberDto){
+    public void createUser(RequestCreateMemberDto requestCreateMemberDto) throws Exception {
+        if(memberRepository.findByUser_id(requestCreateMemberDto.getUser_id()).isPresent()){
+            throw new Exception("이미 존재하는 이메일입니다");
+        }
+        if(memberRepository.findByLol_nickname(requestCreateMemberDto.getLol_nickname()).isPresent()){
+            throw new Exception("이미 존재하는 롤닉네임입니다"); // 추후에 rso 적용시 리펙터링
+        }
         // dto를 entity로 변경해주는 작업이 필요함
         Member member = requestCreateMemberDto.toEntity();
         memberRepository.save(member);
