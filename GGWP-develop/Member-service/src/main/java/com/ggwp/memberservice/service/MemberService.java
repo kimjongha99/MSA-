@@ -5,6 +5,7 @@ import com.ggwp.memberservice.dto.RequestCreateMemberDto;
 import com.ggwp.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,5 +21,8 @@ public class MemberService {
         Member member = requestCreateMemberDto.toEntity();
         memberRepository.save(member);
     }
+
+    //로그인
+
 
 }

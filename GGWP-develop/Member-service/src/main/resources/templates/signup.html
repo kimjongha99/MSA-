@@ -52,12 +52,15 @@
             const userId = $('#user_id').val();
             const password = $('#password').val();
             const lolNickname = $('#lol_nickname').val();
+            const likePos = $('#likePos').val();
 
 
             const member = {
                 user_id: userId,
                 password: password,
-                lol_nickname: lolNickname
+                lol_nickname: lolNickname,
+                likePos: likePos
+
             };
 
             $.ajax({
@@ -108,6 +111,13 @@
                     <input type="text" class="form-control" id="lol_nickname" name="lol_nickname" placeholder="LoL 닉네임" required>
                     <div class="invalid-feedback">
                         LoL 닉네임을 입력해주세요.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="lol_nickname">LoL 주 포지션</label>
+                    <input type="text" class="form-control" id="likePos" name="likePos" placeholder="LoL likePos" required>
+                    <div class="invalid-feedback">
+                        LoL 주포 입력해주세요.
                     </div>
                 </div>
                 <button class="btn btn-primary btn-lg btn-block" id="join_btn" onclick="signup()" type="button">가입 완료</button>

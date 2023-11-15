@@ -24,11 +24,11 @@ public class MemberApiController {
     public ResponseEntity<ResponseDto> signUp(@RequestBody RequestCreateMemberDto requestCreateMemberDto) {
         try {
             memberService.createUser(requestCreateMemberDto);
-            ResponseDto responseDto = new ResponseDto("success", "회원가입 성공");
+            ResponseDto responseDto = new ResponseDto("success", "회원가입 성공", null);
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
             log.error("회원가입 실패: {}", e.getMessage());
-            ResponseDto responseDto = new ResponseDto("error", "회원가입 실패");
+            ResponseDto responseDto = new ResponseDto("error", "회원가입 실패",null);
             return ResponseEntity.badRequest().body(responseDto);
         }
     }

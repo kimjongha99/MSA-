@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public class RequestLoginMember {
 
-        private String username;
+        private String user_id;
         private String password;
 
         @Builder
-        public RequestLoginMember(String username, String password){
-            this.username = username;
+        public RequestLoginMember(String user_id, String password){
+            this.user_id = user_id;
             this.password = password;
         }
 
