@@ -32,9 +32,12 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("JwtAuthenticationProcessingFilter 실행 중...");
+
         if (request.getRequestURI().equals(NO_CHECK_URL)) {
-            filterChain.doFilter(request, response); // "/login" 요청이 들어오면, 다음 필터 호출
-            return; // return으로 이후 현재 필터 진행 막기 (안해주면 아래로 내려가서 계속 필터 진행시킴)
+            log.info("/login 경로 요청, 필터 체인으로 이동");
+            filterChain.doFilter(request, response);
+            return;
         }
 
         // 사용자 요청 헤더에서 RefreshToken 추출
@@ -45,22 +48,15 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
                 .filter(jwtService::isTokenValid)
                 .orElse(null);
 
-        // 리프레시 토큰이 요청 헤더에 존재했다면, 사용자가 AccessToken이 만료되어서
-        // RefreshToken까지 보낸 것이므로 리프레시 토큰이 DB의 리프레시 토큰과 일치하는지 판단 후,
-        // 일치한다면 AccessToken을 재발급해준다.
         if (refreshToken != null) {
+            log.info("유효한 리프레시 토큰 발견, 액세스 토큰 재발급 시도");
             checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
-            return; // RefreshToken을 보낸 경우에는 AccessToken을 재발급 하고 인증 처리는 하지 않게 하기위해 바로 return으로 필터 진행 막기
-        }
-
-        // RefreshToken이 없거나 유효하지 않다면, AccessToken을 검사하고 인증을 처리하는 로직 수행
-        // AccessToken이 없거나 유효하지 않다면, 인증 객체가 담기지 않은 상태로 다음 필터로 넘어가기 때문에 403 에러 발생
-        // AccessToken이 유효하다면, 인증 객체가 담긴 상태로 다음 필터로 넘어가기 때문에 인증 성공
-        if (refreshToken == null) {
+            return;
+        } else {
+            log.info("리프레시 토큰 없음 혹은 유효하지 않음, 액세스 토큰 검증 시도");
             checkAccessTokenAndAuthentication(request, response, filterChain);
         }
     }
-
     /**
      *  [리프레시 토큰으로 유저 정보 찾기 & 액세스 토큰/리프레시 토큰 재발급 메소드]
      *  파라미터로 들어온 헤더에서 추출한 리프레시 토큰으로 DB에서 유저를 찾고, 해당 유저가 있다면
@@ -69,13 +65,16 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      *  그 후 JwtService.sendAccessTokenAndRefreshToken()으로 응답 헤더에 보내기
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+        log.info("리프레시 토큰으로 사용자 정보 조회 및 액세스 토큰/리프레시 토큰 재발급");
         memberRepository.findByRefreshToken(refreshToken)
-                .ifPresent(member -> {
-                    String reIssueRefreshToken = reIssueRefreshToken(member);
-                    jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getUserId()),
-                            reIssueRefreshToken);
-
-                });
+                .ifPresentOrElse(
+                        member -> {
+                            log.info("사용자 {}에 대한 새로운 액세스 토큰 및 리프레시 토큰 생성", member.getUserId());
+                            String reIssuedRefreshToken = reIssueRefreshToken(member);
+                            jwtService.sendAccessAndRefreshToken(response, jwtService.createAccessToken(member.getUserId()), reIssuedRefreshToken);
+                        },
+                        () -> log.warn("일치하는 리프레시 토큰을 가진 사용자가 없음")
+                );
     }
 
     /**
@@ -83,7 +82,9 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * jwtService.createRefreshToken()으로 리프레시 토큰 재발급 후
      * DB에 재발급한 리프레시 토큰 업데이트 후 Flush
      */
+
     private String reIssueRefreshToken(Member member) {
+        log.info("리프레시 토큰 재발급 및 데이터베이스 업데이트: 사용자 {}", member.getUserId());
         String reIssuedRefreshToken = jwtService.createRefreshToken();
         member.updateRefreshToken(reIssuedRefreshToken);
         memberRepository.saveAndFlush(member);
@@ -98,17 +99,24 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
      * 인증 허가 처리된 객체를 SecurityContextHolder에 담기
      * 그 후 다음 인증 필터로 진행
      */
-    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                                  FilterChain filterChain) throws ServletException, IOException {
-        log.info("checkAccessTokenAndAuthentication() 호출");
+
+    public void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("액세스 토큰 검증 및 인증 처리 시작");
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(userId -> memberRepository.findByUserId(userId)
-                                .ifPresent(this::saveAuthentication)));
+                .ifPresentOrElse(
+                        accessToken -> {
+                            log.info("유효한 액세스 토큰 발견, 사용자 인증 시도");
+                            jwtService.extractEmail(accessToken)
+                                    .ifPresent(userId -> memberRepository.findByUserId(userId)
+                                            .ifPresent(this::saveAuthentication));
+                        },
+                        () -> log.info("유효한 액세스 토큰이 없음")
+                );
 
         filterChain.doFilter(request, response);
     }
+
 
     /**
      * [인증 허가 메소드]
