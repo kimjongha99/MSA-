@@ -11,20 +11,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Builder @ToString
 public class RequestCreateMemberDto {
 
-    private String user_id;
+    private String userId;
     private String password;
-    private String lol_nickname;
-    private String likePos;
+    private String nickname;
+
 
     public Member toEntity() {
         // 암호화 비번을 저장하기 위해 필요한 암호화 라이브러리
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         return Member.builder()
-                .user_id(user_id)
+                .userId(userId)
                 .password(bCryptPasswordEncoder.encode(password))
-                .lol_nickname(lol_nickname)
-                .likePos(likePos)
+                .nickname(nickname)
                 .build();
     }
 

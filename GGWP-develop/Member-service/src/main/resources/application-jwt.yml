@@ -1,9 +1,15 @@
-jwt:
-  secretKey: dasdasf234fuhvertsv34789yhiuFDSIUFGYDTE5rasdasd
-  access:
-    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
-    header: Authorization
-
-  refresh:
-    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
-    header: Authorization-refresh
+##jwt:
+##  secretKey: dasdasf234fuhvertsv34789yhiuFDSIUFGYDTE5rasdasd
+##  access:
+##    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+##    header: Authorization
+##
+##  refresh:
+##    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+##    header: Authorization-refresh
+#jwt:
+#  header: Authorization
+#  secret: aGVsbG8gd29ybGQgbXkgbmFtZSBpcyBzc29uZyBoYWhhaGFoYWhhaGFoYSBydXJ1cnVydXJ1cnVydXJ1ZHNmc2Rmc2Rmc2Rmc2EK # fill in base64 [command: echo {plain_text} | base64]
+#  refresh-token-secret: d29ybGQgbXkgbmFtZSBpcyBzc29uZyBoYWhhaGFoYWhhaGFoYSBydXJ1cnVydXJ1cnVydXJ1ZHNmc2Rmc2Rmc2Rmc2FkCg== # it must be different from the access key secret
+#  access-token-validity-in-seconds: 300 # 10 min
+#  refresh-token-validity-in-seconds: 86400 # 24 hour # ??? ?? ?? ? 1?
