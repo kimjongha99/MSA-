@@ -3,6 +3,8 @@ package com.ggwp.memberservice.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ggwp.memberservice.JsonLoginProcessingFilter;
+import com.ggwp.memberservice.jwt.JwtAuthenticationProcessingFilter;
+import com.ggwp.memberservice.jwt.JwtService;
 import com.ggwp.memberservice.login.LoginFailureHandler;
 import com.ggwp.memberservice.login.LoginSuccessHandler;
 import com.ggwp.memberservice.repository.MemberRepository;
@@ -62,6 +64,8 @@ public class SecurityConfiguration {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
+        http.addFilterBefore(new JwtAuthenticationProcessingFilter(authenticationManager(), ?), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(loginProcessingFilter(authenticationManager(), authenticationSuccessHandler(?), authenticationFailureHandler()), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
