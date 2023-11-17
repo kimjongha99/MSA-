@@ -1,4 +1,4 @@
-package com.ggwp.memberservice;
+package com.ggwp.memberservice.testview;
 
 
 import org.springframework.stereotype.Controller;
@@ -10,4 +10,11 @@ public class testviewController {
     public String signupForm(){
         return "/signup";
     }
+
+
+    @GetMapping("/member/loginform")
+    public String loginform(){
+        return "/login";
+    }
+
 }

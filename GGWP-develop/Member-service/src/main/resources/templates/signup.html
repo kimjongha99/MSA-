@@ -49,17 +49,15 @@
 
     <script>
         function signup(){
-            const userId = $('#user_id').val();
+            const userId = $('#userId').val();
             const password = $('#password').val();
-            const lolNickname = $('#lol_nickname').val();
-            const likePos = $('#likePos').val();
+            const nickname = $('#nickname').val();
 
 
             const member = {
-                user_id: userId,
+                userId: userId,
                 password: password,
-                lol_nickname: lolNickname,
-                likePos: likePos
+                nickname: nickname,
 
             };
 
@@ -93,8 +91,8 @@
             <h4 class="mb-3">회원가입</h4>
             <form class="validation-form" th:action="@{/api/member/signup}" th:method="post" modelAttribute="member" novalidate>
                 <div class="mb-3">
-                    <label for="user_id">사용자 ID</label>
-                    <input type="text" class="form-control" id="user_id" name="user_id" placeholder="사용자 ID" required>
+                    <label for="userId">사용자 ID</label>
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="사용자 ID" required>
                     <div class="invalid-feedback">
                         사용자 ID를 입력해주세요.
                     </div>
@@ -107,19 +105,13 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="lol_nickname">LoL 닉네임</label>
-                    <input type="text" class="form-control" id="lol_nickname" name="lol_nickname" placeholder="LoL 닉네임" required>
+                    <label for="nickname">LoL 닉네임</label>
+                    <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임" required>
                     <div class="invalid-feedback">
                         LoL 닉네임을 입력해주세요.
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="lol_nickname">LoL 주 포지션</label>
-                    <input type="text" class="form-control" id="likePos" name="likePos" placeholder="LoL likePos" required>
-                    <div class="invalid-feedback">
-                        LoL 주포 입력해주세요.
-                    </div>
-                </div>
+
                 <button class="btn btn-primary btn-lg btn-block" id="join_btn" onclick="signup()" type="button">가입 완료</button>
             </form>
         </div>
