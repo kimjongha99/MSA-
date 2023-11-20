@@ -1,5 +1,6 @@
 package com.ggwp.memberservice.global.jwt;
 
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
@@ -7,16 +8,15 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.ggwp.memberservice.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component

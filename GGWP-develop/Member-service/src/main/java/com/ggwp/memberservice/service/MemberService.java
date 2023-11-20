@@ -1,12 +1,17 @@
 package com.ggwp.memberservice.service;
 
+import com.ggwp.memberservice.client.SquadFeignClient;
 import com.ggwp.memberservice.domain.Member;
 import com.ggwp.memberservice.dto.RequestCreateMemberDto;
+import com.ggwp.memberservice.global.exception.CustomException;
 import com.ggwp.memberservice.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.ggwp.memberservice.global.exception.ErrorCode.ALREADY_EXIST_EMAIL;
+import static com.ggwp.memberservice.global.exception.ErrorCode.ALREADY_EXIST_NICKNAME;
 
 @Service
 @RequiredArgsConstructor
@@ -15,14 +20,22 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    private  final SquadFeignClient squadFeignClient;
+
     // 회원가입
-    public void createUser(RequestCreateMemberDto requestCreateMemberDto) throws Exception {
-        // dto를 entity로 변경해주는 작업이 필요함
+    public void createUser(RequestCreateMemberDto requestCreateMemberDto) {
+
+        if(memberRepository.existsByEmail(requestCreateMemberDto.getEmail())){
+            throw new CustomException(ALREADY_EXIST_EMAIL);
+        }else if(memberRepository.existsByNickname(requestCreateMemberDto.getNickname())){
+            throw  new CustomException(ALREADY_EXIST_NICKNAME);
+        }
+
         Member member = requestCreateMemberDto.toEntity();
         memberRepository.save(member);
     }
 
-    //로그인
 
+    public  List
 
 }
