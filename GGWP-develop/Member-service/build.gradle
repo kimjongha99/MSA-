@@ -38,6 +38,13 @@ dependencies {
     runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'com.auth0:java-jwt:4.4.0'
 
+    //swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    //validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //chatting
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 }
 

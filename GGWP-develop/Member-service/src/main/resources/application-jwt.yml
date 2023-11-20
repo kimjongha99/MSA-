@@ -1,10 +1,10 @@
-jwt:
-  secretKey: asljbdhilashbdiuab22asdad7652765red2776f2dg725f265f265sfd65adf6d222
 
-  access:
-    expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
-    header: Authorization
-
-  refresh:
-    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
-    header: Authorization-refresh
+spring:
+  jwt:
+    secret-key: "asd23he8h31821ghgbsudom23o1gh732siadh2383"  # Replace with your actual secret key
+    access:
+      expiration: 3600               # Access token expiration period in seconds
+      header: "Authorization"        # Header name for access token
+    refresh:
+      expiration: 604800             # Refresh token expiration period in seconds
+      header: "RefreshToken"        # Header name for refresh token
