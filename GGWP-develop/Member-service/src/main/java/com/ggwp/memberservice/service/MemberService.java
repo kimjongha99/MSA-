@@ -25,7 +25,7 @@ public class MemberService {
 
         if(memberRepository.existsByEmail(requestCreateMemberDto.getEmail())){
             throw new CustomException(ALREADY_EXIST_EMAIL);
-        }else if(memberRepository.existsByNickname(requestCreateMemberDto.getNickname())){
+        }else if(memberRepository.existsByLolNickname(requestCreateMemberDto.getLolNickname())){
             throw  new CustomException(ALREADY_EXIST_NICKNAME);
         }
 

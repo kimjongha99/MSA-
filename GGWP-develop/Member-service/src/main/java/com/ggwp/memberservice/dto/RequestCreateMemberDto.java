@@ -15,7 +15,7 @@ public class RequestCreateMemberDto {
 
     private String email;
     private String password;
-    private String nickname;
+    private String lolNickname;
 
 
     public Member toEntity() {
@@ -24,7 +24,7 @@ public class RequestCreateMemberDto {
         return Member.builder()
                 .email(email)
                 .password(bCryptPasswordEncoder.encode(password))
-                .nickname(nickname)
+                .lolNickname(lolNickname)
                 .role(RoleType.USER)
                 .build();
     }

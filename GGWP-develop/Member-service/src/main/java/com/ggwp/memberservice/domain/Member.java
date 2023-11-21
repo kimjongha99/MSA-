@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
     private String password;
 
     @Column(unique = true)
-    private  String nickname;
+    private  String lolNickname;
 
 
     @Enumerated(EnumType.STRING)
@@ -44,11 +44,11 @@ public class Member extends BaseEntity {
     private String uuid; //이 필드가 유일한 값임을 보장
 
     @Builder
-    public Member(Long id, String email, String password, String nickname , String socialId, String refreshToken, RoleType role,String uuid) {
+    public Member(Long id, String email, String password, String lolNickname , String socialId, String refreshToken, RoleType role,String uuid) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.nickname = nickname;
+        this.lolNickname = lolNickname;
         this.socialId = " ";
         this.refreshToken = refreshToken;
         this.role = role;
@@ -69,13 +69,13 @@ public class Member extends BaseEntity {
     }
     //OAuth2용
     public Member(
-            String nickname,
+            String lolNickname,
             String email,
             String socialId,
             ProviderType providerType,
             RoleType role
     ) {
-        this.nickname = nickname;
+        this.lolNickname = lolNickname;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
         this.providerType = providerType;

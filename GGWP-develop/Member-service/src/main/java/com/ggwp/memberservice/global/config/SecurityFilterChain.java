@@ -72,20 +72,7 @@ public class SecurityFilterChain {
                 //== URL별 권한 관리 옵션 ==//
 //        .authorizeHttpRequests(m -> methodSecurityExpressionHandler(new RoleHierarchy()))
                 .authorizeHttpRequests(authorizationHttpRequests -> authorizationHttpRequests
-                        .requestMatchers("/v1/notices/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/v1/noticelist/**").permitAll()//공지사항 조회
-                        .requestMatchers(HttpMethod.GET, "/v1/recipe/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/recipes/**").permitAll() //댓글
-                        .requestMatchers(HttpMethod.GET, "/v1/comments/**").permitAll()//대댓글
                         .requestMatchers(
-                                // -- Swagger UI v2
-                                "/v2/api-docs",
-                                "/swagger-resources",
-                                "/swagger-resources/**",
-                                "/configuration/ui",
-                                "/configuration/security",
-                                "/swagger-ui.html",
-                                "/webjars/**",
                                 // -- Swagger UI v3 (OpenAPI)
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**").permitAll()
@@ -93,23 +80,10 @@ public class SecurityFilterChain {
                                "/v1/auth/**",
                                 "/v1/member/signup",//회원가입
                                 "/v1/users/login",//로그인
-                                "/v1/users/findpw",//비밀번호 찾기 (비밀번호 재발급)
-                                "/v1/users/findid",//아이디 찾기
                                 "/v1/users/verify/**", //이메일 인증
                                 "/v1/recipe/commentlist/**", //댓글 조회
                                 "/chat/**"
                         ).permitAll()
-                        .requestMatchers(
-                                "/v1/users/**",
-                                "/v1/shareboards/**",
-                                "/v1/recipe/**",
-                                "/v1/comments/**",//대댓글
-                                "/v1/recipes/comment/**",//댓글 작성,수정,삭제
-                                "/v1/likes/**",
-                                "/v1/favorite/**",
-                                "/v1/saved-recipe/**",
-                                "/v1/chat/**"
-                        ).hasRole("USER")
                         .anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .logout(logout -> logout.logoutSuccessUrl("/"))
                 //== 소셜 로그인 설정 ==//
