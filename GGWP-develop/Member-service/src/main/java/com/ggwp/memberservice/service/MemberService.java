@@ -1,6 +1,5 @@
 package com.ggwp.memberservice.service;
 
-import com.ggwp.memberservice.client.SquadFeignClient;
 import com.ggwp.memberservice.domain.Member;
 import com.ggwp.memberservice.dto.RequestCreateMemberDto;
 import com.ggwp.memberservice.global.exception.CustomException;
@@ -20,7 +19,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    private  final SquadFeignClient squadFeignClient;
 
     // 회원가입
     public void createUser(RequestCreateMemberDto requestCreateMemberDto) {
@@ -35,7 +33,5 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-
-    public  List
 
 }

@@ -1,6 +1,7 @@
 package com.ggwp.memberservice.domain;
 
 import com.ggwp.memberservice.global.entity.BaseEntity;
+import com.ggwp.memberservice.global.entity.ProviderType;
 import com.ggwp.memberservice.global.entity.RoleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -27,8 +29,9 @@ public class Member extends BaseEntity {
     @Column(unique = true)
     private  String nickname;
 
-    private String profileImageUrl;
 
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
 
     private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
 
@@ -41,17 +44,18 @@ public class Member extends BaseEntity {
     private String uuid; //이 필드가 유일한 값임을 보장
 
     @Builder
-    public Member(Long id, String email, String password, String nickname, String profileImageUrl, String socialId, String refreshToken, RoleType role,String uuid) {
+    public Member(Long id, String email, String password, String nickname , String socialId, String refreshToken, RoleType role,String uuid) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.profileImageUrl = profileImageUrl;
         this.socialId = " ";
         this.refreshToken = refreshToken;
         this.role = role;
         this.uuid = uuid;
     }
+
+
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
@@ -62,6 +66,21 @@ public class Member extends BaseEntity {
         if (uuid == null || uuid.isEmpty()) {
             uuid = UUID.randomUUID().toString(); // UUID 자동 생성
         }
+    }
+    //OAuth2용
+    public Member(
+            String nickname,
+            String email,
+            String socialId,
+            ProviderType providerType,
+            RoleType role
+    ) {
+        this.nickname = nickname;
+        this.password = "NO_PASS";
+        this.email = email != null ? email : "NO_EMAIL";
+        this.providerType = providerType;
+        this.socialId = socialId;
+        this.role = role;
     }
 
 }

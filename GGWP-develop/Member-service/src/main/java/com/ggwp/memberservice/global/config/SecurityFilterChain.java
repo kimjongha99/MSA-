@@ -8,6 +8,9 @@ import com.ggwp.memberservice.global.handler.TokenAccessDeniedHandler;
 import com.ggwp.memberservice.global.jwt.JwtAuthenticationProcessingFilter;
 import com.ggwp.memberservice.global.jwt.JwtTokenProvider;
 import com.ggwp.memberservice.global.jwt.service.CustomUserDetailService;
+import com.ggwp.memberservice.global.oauth2.handler.OAuth2LoginFailureHandler;
+import com.ggwp.memberservice.global.oauth2.handler.OAuth2LoginSuccessHandler;
+import com.ggwp.memberservice.global.oauth2.service.CustomOAuth2UserService;
 import com.ggwp.memberservice.repository.MemberRepository;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
@@ -46,9 +49,9 @@ public class SecurityFilterChain {
 //    private final BlacklistTokenRepository blacklistTokenRepository;
     private  final MemberRepository memberRepository;
     private final ObjectMapper objectMapper;
-//    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
-//    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
-//    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
 
 
@@ -109,18 +112,19 @@ public class SecurityFilterChain {
                         ).hasRole("USER")
                         .anyRequest().authenticated()) // 위의 경로 이외에는 모두 인증된 사용자만 접근 가능
                 .logout(logout -> logout.logoutSuccessUrl("/"))
-//                //== 소셜 로그인 설정 ==//
-//                .oauth2Login(oauth2Login -> oauth2Login
-//                        .authorizationEndpoint(
-//                                authorizationEndpoint -> authorizationEndpoint.baseUri("/oauth2/authorize"))
-//                        .redirectionEndpoint(
-//                                redirectionEndpoint -> redirectionEndpoint.baseUri("/*/oauth2/code/*"))
-//                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(
-//                                customOAuth2UserService))
-//                        .successHandler(oAuth2LoginSuccessHandler)
-//                        .failureHandler(oAuth2LoginFailureHandler)
-//                )
-                // 순서 : LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
+                //== 소셜 로그인 설정 ==//
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .authorizationEndpoint(
+                                authorizationEndpoint -> authorizationEndpoint.baseUri("/oauth2/authorize"))
+                        .redirectionEndpoint(
+                                redirectionEndpoint -> redirectionEndpoint.baseUri("/*/oauth2/code/*"))
+                        .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(
+                                customOAuth2UserService))
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .failureHandler(oAuth2LoginFailureHandler)
+                )
+
+                 //순서 : LogoutFilter -> JwtAuthenticationProcessingFilter -> CustomJsonUsernamePasswordAuthenticationFilter
                 .addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class)
                 .addFilterBefore(jwtAuthenticationProcessingFilter(),
                         CustomJsonUsernamePasswordAuthenticationFilter.class);
