@@ -83,7 +83,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
   private Member saveMember(OAuthAttributes attributes, ProviderType providerType) {
     if(memberRepository.existsByEmail( attributes.getOauth2UserInfo().getEmail())){
-      //TODO: 이미 등록되어있는 이메일입니다. 뜨고 이후에 처리 어떻게 할것인지.
       throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
     }
     Member createdMember = attributes.toEntity(providerType, attributes.getOauth2UserInfo());
