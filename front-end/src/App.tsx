@@ -1,14 +1,16 @@
 import { Route, Routes, useLocation } from 'react-router-dom';
-import {useUserStore} from "./stores";
-import {useCookies} from "react-cookie";
-import {GetSignInUserResponseDto} from "./apis/dto/response/user";
-import {AUTH_PATH, MAIN_PATH} from "./constant";
-import ResponseDto from "./apis/dto/response";
-import {useEffect} from "react";
-import {getSignInUserRequest} from "./apis";
-import Container from "./layouts/Container";
-import  Main from "./views/Main"
-import Authentication from "./views/Authentication";
+import './App.css';
+import { AUTH_PATH , MAIN_PATH } from 'constant';
+import Main from 'views/Main';
+import Authentication from 'views/Authentication';
+
+import Container from 'layouts/Container';
+import { useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import { useUserStore } from 'stores';
+import { getSignInUserRequest } from 'apis';
+import { GetSignInUserResponseDto } from 'apis/dto/response/user';
+import ResponseDto from 'apis/dto/response';
 
 function App() {
 

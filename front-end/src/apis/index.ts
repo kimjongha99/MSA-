@@ -7,7 +7,7 @@ import {GetSignInUserResponseDto, GetUserResponseDto} from "./dto/response/user"
 
 
 
-const DOMAIN = 'http://localhost:4000'; // description: 내 URL // 나중엔 gateway주소 //
+const DOMAIN = 'http://localhost:8080'; // description: 내 URL // 나중엔 gateway주소 //
 
 const API_DOMAIN = `${DOMAIN}/v1`; // description: API Domain 주소 //
 
@@ -60,10 +60,9 @@ export const signInRequest = async (requestBody: SignInRequestDto) => { // descr
 
 
 
-const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;  // description: get sign in user API end point //
+const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/member`;  // description: get sign in user API end point //
 
 
-const GET_USER_URL = (email: string) => `${API_DOMAIN}/user/${email}`; // description: get user API end point //
 
 export const getSignInUserRequest = async (token: string) => {  // description: get sign in user request //
 
@@ -78,19 +77,7 @@ export const getSignInUserRequest = async (token: string) => {  // description: 
         });
     return result;
 };
-export const getUserRequest = async (email: string) => { // description: get user request //
-    const result = await axios.get(GET_USER_URL(email))
-        .then(response => {
-            const responseBody: GetUserResponseDto = response.data;
-            return responseBody;
-        })
-        .catch(error => {
-            const responseBody: ResponseDto = error.response.data;
-            return responseBody;
-        });
 
-    return result;
-};
 
 
 

@@ -32,10 +32,6 @@ export default function Authentication() { // component 인증화면 컴포넌�
 
         const [password, setPassword] = useState<string>('');        //          state: 입력한 비밀번호 상태          //
 
-        const [passwordType, setPasswordType] = useState<'text' | 'password'>('password');         //          state: 비밀번호 인풋 타입 상태          //
-
-        const [passwordIcon, setPasswordIcon] = useState<'eye-off-icon' | 'eye-on-icon'>('eye-off-icon');         //          state: 비밀번호 인풋 버튼 아이콘 상태          //
-
         const [error, setError] = useState<boolean>(false);        //          state: 로그인 에러 상태          //
 
 
@@ -69,17 +65,7 @@ export default function Authentication() { // component 인증화면 컴포넌�
             if (event.key !== 'Enter') return;
             onSignInButtonClickHandler();
         }
-        //          event handler: 비밀번호 인풋 버튼 클릭 이벤트 처리          //
-        const onPasswordIconClickHandler = () => {
-            if (passwordType === 'text') {
-                setPasswordType('password');
-                setPasswordIcon('eye-off-icon');
-            }
-            if (passwordType === 'password') {
-                setPasswordType('text');
-                setPasswordIcon('eye-on-icon');
-            }
-        }
+
 
         //          event handler: 로그인 버튼 클릭 이벤트 처리          //
         const onSignInButtonClickHandler = () => {
@@ -101,9 +87,9 @@ export default function Authentication() { // component 인증화면 컴포넌�
                     </div>
                     <InputBox label='이메일 주소' type='text' placeholder='이메일 주소를 입력해주세요.' error={error} value={email}
                               setValue={setEmail} onKeyDown={onEmailKeyDownHandler}/>
-                    <InputBox ref={passwordRef} label='비밀번호' type={passwordType} placeholder='비밀번호를 입력해주세요.'
-                              error={error} value={password} setValue={setPassword} icon={passwordIcon}
-                              onKeyDown={onPasswordKeyDownHanlder} onButtonClick={onPasswordIconClickHandler}/>
+                    <InputBox ref={passwordRef} label='비밀번호'  placeholder='비밀번호를 입력해주세요.'
+                              error={error} value={password} setValue={setPassword}
+                              onKeyDown={onPasswordKeyDownHanlder}  type='password'/>
                 </div>
                 <div className='auth-card-bottom'>
                     {error && (
@@ -132,13 +118,11 @@ export default function Authentication() { // component 인증화면 컴포넌�
             const [emailError, setEmailError] = useState<boolean>(false);             //          state: 이메일 에러 상태          //
             const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');//          state: 이메일 에러 메세지 상태          //
             const [password, setPassword] = useState<string>('');            //          state: 비밀번호 상태          //
-            const [passwordType, setPasswordType] = useState<'text' | 'password'>('password');            //          state: 비밀번호 타입 상태          //
-            const [passwordIcon, setPasswordIcon] = useState<'eye-on-icon' | 'eye-off-icon'>('eye-off-icon');            //          state: 비밀번호 아이콘 상태          //
+
+
             const [passwordError, setPasswordError] = useState<boolean>(false);            //          state: 비밀번호 에러 상태          //
             const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('');            //          state: 비밀번호 에러 메세지 상태          //
             const [passwordCheck, setPasswordCheck] = useState<string>('');            //          state: 비밀번호 확인 상태          //
-            const [passwordCheckType, setPasswordCheckType] = useState<'text' | 'password'>('password');            //          state: 비밀번호 확인 타입 상태          //
-            const [passwordCheckIcon, setPasswordCheckIcon] = useState<'eye-on-icon' | 'eye-off-icon'>('eye-off-icon');            //          state: 비밀번호 확인 아이콘 상태          //
             const [passwordCheckError, setPasswordCheckError] = useState<boolean>(false);            //          state: 비밀번호 확인 에러 상태          //
             const [passwordCheckErrorMessage, setPasswordCheckErrorMessage] = useState<string>('');            //          state: 비밀번호 확인 에러 메세지 상태          //
 
@@ -182,28 +166,6 @@ export default function Authentication() { // component 인증화면 컴포넌�
 
             }
 
-            const onPasswordIconClickHandler = () => {            //          event handler: 비밀번호 아이콘 클릭 이벤트 처리          //
-
-                if (passwordType === 'password') {
-                    setPasswordType('text');
-                    setPasswordIcon('eye-on-icon');
-                }
-                if (passwordType === 'text') {
-                    setPasswordType('password');
-                    setPasswordIcon('eye-off-icon');
-                }
-            }
-            const onPasswordCheckIconClickHandler = () => {              //          event handler: 비밀번호 확인 아이콘 클릭 이벤트 처리          //
-
-                if (passwordCheckType === 'text') {
-                    setPasswordCheckType('password');
-                    setPasswordCheckIcon('eye-off-icon');
-                }
-                if (passwordCheckType === 'password') {
-                    setPasswordCheckType('text');
-                    setPasswordCheckIcon('eye-on-icon');
-                }
-            }
 
 
             //          event handler: 개인정보동의 체크 이벤트 처리          //
@@ -292,22 +254,24 @@ export default function Authentication() { // component 인증화면 컴포넌�
                             <div className='auth-card-title-page'>{`${page}/2`}</div>
                         </div>
                         {page === 1 && (<>
+
                             <InputBox label='이메일 주소*' type='text' placeholder='이메일 주소를 입력해주세요.' value={email}
                                       setValue={setEmail} error={emailError} errorMessage={emailErrorMessage}/>
-                            <InputBox label='비밀번호*' type={passwordType} placeholder='비밀번호를 입력해주세요.' value={password}
-                                      setValue={setPassword} icon={passwordIcon} error={passwordError}
-                                      errorMessage={passwordErrorMessage} onButtonClick={onPasswordIconClickHandler}/>
-                            <InputBox label='비밀번호 확인*' type={passwordCheckType} placeholder='비밀번호를 다시 입력해주세요.'
-                                      value={passwordCheck} setValue={setPasswordCheck} icon={passwordCheckIcon}
+                            <InputBox label='비밀번호*' type='password' placeholder='비밀번호를 입력해주세요.' value={password}
+                                      setValue={setPassword}  error={passwordError}
+                                      errorMessage={passwordErrorMessage} />
+                            <InputBox label='비밀번호 확인*' type='password' placeholder='비밀번호를 다시 입력해주세요.'
+                                      value={passwordCheck} setValue={setPasswordCheck}
                                       error={passwordCheckError} errorMessage={passwordCheckErrorMessage}
-                                      onButtonClick={onPasswordCheckIconClickHandler}/>
+                                      />
                         </>)}
                         {page === 2 && (<>
+
                             <InputBox label='롤 닉네임*' type='text' placeholder='롤 닉네임을 입력해주세요.' value={lolNickname}
                                       setValue={setLolNickname} error={lolNicknameError}
                                       errorMessage={lolNicknameErrorMessage}/>
                             <InputBox label='태그 *' type='text' placeholder='태그 를 입력해주세요.' value={tag}
-                                      setValue={setTagErrorMessage} error={tagError} errorMessage={tagErrorMessage}/>
+                                      setValue={setTag} error={tagError} errorMessage={tagErrorMessage}/>
                         </>)}
                     </div>
                     <div className='auth-card-bottom'>
