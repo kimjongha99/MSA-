@@ -3,5 +3,5 @@ import GetSignInUserResponseDto from './get-sign-in-user.response.dto';
 
 export type {
     GetUserResponseDto,
-    GetSignInUserResponseDto,
+    GetSignInUserResponseDto
 };

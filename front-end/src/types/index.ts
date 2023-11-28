@@ -1,7 +1,8 @@
 import User from './user.interface';
 import LoginUser from './login-user.interface';
 
-export type { 
+export type {
     User,
+
     LoginUser
- };
+};

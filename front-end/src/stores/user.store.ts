@@ -1,5 +1,5 @@
-import { LoginUser } from 'types';
 import { create } from 'zustand';
+import LoginUser from "../types/login-user.interface";
 
 interface UserStore {
     user: LoginUser | null;

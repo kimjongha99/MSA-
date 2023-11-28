@@ -1,5 +1,5 @@
 export default interface User {
     email: string;
-    lolNickName: string;
-    tag: string
+    nickname: string;
+    profileImage: string | null;
 }

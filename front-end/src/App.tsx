@@ -1,33 +1,57 @@
-import './App.css';
-import {Route, Routes} from "react-router-dom";
-import {AUTH_PATH, MAIN_PATH, USER_PATH} from "./constant";
-import Main from "./views/Main";
-import Authentication from "./views/Authentication";
+import { Route, Routes, useLocation } from 'react-router-dom';
+import {useUserStore} from "./stores";
+import {useCookies} from "react-cookie";
+import {GetSignInUserResponseDto} from "./apis/dto/response/user";
+import {AUTH_PATH, MAIN_PATH} from "./constant";
+import ResponseDto from "./apis/dto/response";
+import {useEffect} from "react";
+import {getSignInUserRequest} from "./apis";
 import Container from "./layouts/Container";
-
-// component : Application 컴포넌트
+import  Main from "./views/Main"
+import Authentication from "./views/Authentication";
 
 function App() {
-    // render 컴포넌트 렌더링
 
-    // description  메인화면 '/' - Main
-    // description   로그인 회원가입 + '/auth'  - Authentication
+        const { pathname } = useLocation();   //          state: 현재 페이지 url 상태          //
+        const { user, setUser } = useUserStore();   //          state: 로그인 유저 상태          //
+        const [cookies, setCookie] = useCookies();  //          state: cookie 상태          //
 
 
+        const getSignInUserResponse = (responseBody: GetSignInUserResponseDto | ResponseDto) => {
+                const { code } = responseBody;
+                if (code !== 'SU') {
+                        setCookie('accessToken', '', { expires: new Date(), path: MAIN_PATH });
+                        setUser(null);
+                        return;
+                }
 
-return(
-    <Routes>
-        <Route element={<Container/>}>
-        <Route path={MAIN_PATH()} element={<Main />} />
-        <Route path={AUTH_PATH()} element={<Authentication />} />
-                <Route path={USER_PATH(':searchEmail')}  />
+                setUser({ ...responseBody as GetSignInUserResponseDto });
+        }
 
-        <Route path='*' element={<h1>404 NOT FOUND</h1>}/>
-        </Route>
+        useEffect(() => {    //          effect: 현재 path가 변경될 때마다 실행될 함수          //
 
-    </Routes>
-);
+
+                const accessToken = cookies.accessToken;
+                if (!accessToken) {
+                        setUser(null);
+                        return;
+                }
+
+                getSignInUserRequest(accessToken).then(getSignInUserResponse);
+
+        }, [pathname]);
+
+        return (
+            <Routes>
+                    <Route element={<Container />}>
+                            <Route path={MAIN_PATH} element={<Main />} />
+                            <Route path={AUTH_PATH} element={<Authentication/>}/>
+                            <Route path='*' element={<h1>404 Not Found</h1>} />
+                    </Route>
+            </Routes>
+        );
 }
 
 export default App;
+
 

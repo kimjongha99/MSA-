@@ -7,33 +7,27 @@ import {GetSignInUserResponseDto, GetUserResponseDto} from "./dto/response/user"
 
 
 
-// description: 내 URL // 나중엔 gateway주소 //
-const DOMAIN = 'http://localhost:4000';
-// description: API Domain 주소 //
-const API_DOMAIN = `${DOMAIN}/v1`;
+const DOMAIN = 'http://localhost:4000'; // description: 내 URL // 나중엔 gateway주소 //
 
-// description: Authorizaition Header //
-const authorization = (token: string) => {
+const API_DOMAIN = `${DOMAIN}/v1`; // description: API Domain 주소 //
+
+
+const authorization = (token: string) => {// description: Authorizaition Header //
     return { headers: { Authorization: `Bearer ${token}` } };
 };
 
 
 
-// description: sign up API end point //
-const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`;
-// description: sigin in API end point //
-const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;
+const SIGN_UP_URL = () => `${API_DOMAIN}/auth/sign-up`; // description: sign up API end point //
+
+const SIGN_IN_URL = () => `${API_DOMAIN}/auth/sign-in`;// description: sigin in API end point //
 
 
-export const signUpRequest = async (requestBody: {
-    password: string;
-    lolNickname: string;
-    userPasswordCheck: string;
-    tag: string;
-    email: string
-})=>{
+
+export const signUpRequest  = async (requestBody: SignUpRequestDto) => { // description: sign up request //
+
     const result = await axios.post(SIGN_UP_URL(), requestBody)
-        .then(response=> {
+        .then(response => {
             const responseBody: SignUpResponseDto = response.data;
             const { code } = responseBody;
             return code;
@@ -44,10 +38,11 @@ export const signUpRequest = async (requestBody: {
             return code;
         });
     return result;
-}
+};
 
-// description: sign in request //
-export const signInRequest = async (requestBody: SignInRequestDto) => {
+
+export const signInRequest = async (requestBody: SignInRequestDto) => { // description: sign in request //
+
     const result = await axios.post(SIGN_IN_URL(), requestBody)
         .then(response => {
             const responseBody: SignInResponseDto = response.data;
@@ -64,14 +59,14 @@ export const signInRequest = async (requestBody: SignInRequestDto) => {
 
 
 
-// description: get sign in user API end point //
-const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;
-// description: get user API end point //
-const GET_USER_URL = (email: string) => `${API_DOMAIN}/user/${email}`;
+
+const GET_SIGN_IN_USER_URL = () => `${API_DOMAIN}/user`;  // description: get sign in user API end point //
 
 
-// description: get sign in user request // //
-export const getSignInUserRequest = async (token: string) => {
+const GET_USER_URL = (email: string) => `${API_DOMAIN}/user/${email}`; // description: get user API end point //
+
+export const getSignInUserRequest = async (token: string) => {  // description: get sign in user request //
+
     const result = await axios.get(GET_SIGN_IN_USER_URL(), authorization(token))
         .then(response => {
             const responseBody: GetSignInUserResponseDto = response.data;
@@ -83,10 +78,7 @@ export const getSignInUserRequest = async (token: string) => {
         });
     return result;
 };
-
-
-// description: get user request //
-export const getUserRequest = async (email: string) => {
+export const getUserRequest = async (email: string) => { // description: get user request //
     const result = await axios.get(GET_USER_URL(email))
         .then(response => {
             const responseBody: GetUserResponseDto = response.data;
@@ -99,3 +91,12 @@ export const getUserRequest = async (email: string) => {
 
     return result;
 };
+
+
+
+
+
+
+
+
+
