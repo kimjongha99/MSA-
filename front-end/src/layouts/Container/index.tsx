@@ -3,6 +3,8 @@ import Header from 'layouts/Header'
 import Footer from 'layouts/Footer'
 import React from 'react'
 import {AUTH_PATH} from 'constant';
+import './style.css';
+import * as diagnostics_channel from "diagnostics_channel";
 
 //          component: 메인 레이아웃          //
 export default function Container() {
@@ -15,10 +17,11 @@ export default function Container() {
 
   //          render: 메인 레이아웃 렌더링          //
   return (
-    <>
+    <div>
         <Header/>
-        <Outlet/>
+        <div id='Main'> <Outlet/></div>
+
         {pathname !== AUTH_PATH && <Footer/>}
-    </>
+    </div>
   )
 }

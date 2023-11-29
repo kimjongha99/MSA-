@@ -81,7 +81,7 @@ export default function Header() {
                     <div className='header-logo-icon-box' >
                         <div className='logo-dark-icon'></div>
                     </div>
-                    <div className='header-logo-text'>{'kim Board'}</div>
+                    <div className='header-logo-text'>{'GGWP'}</div>
                 </div>
                 <div className='header-right-box'>
                     { isMainPage && (<LoginMyPageButton />) }

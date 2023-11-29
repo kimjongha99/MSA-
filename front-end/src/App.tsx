@@ -44,9 +44,9 @@ function App() {
         }, [pathname]);
 
         return (
-            <Routes>
-                    <Route element={<Container />}>
-                            <Route path={MAIN_PATH} element={<Main />} />
+        <Routes>
+                <Route element={<Container /> }>
+                        <Route path={MAIN_PATH} element={<Main />} />
                             <Route path={AUTH_PATH} element={<Authentication/>}/>
                             <Route path='*' element={<h1>404 Not Found</h1>} />
                     </Route>

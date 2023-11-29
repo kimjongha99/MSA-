@@ -49,16 +49,6 @@ Y
 src/index.css,c\5\c5d38a62d1faae90a2acaa34b79a7ef365c917e4
 H
 src/stores/user.store.ts,5\7\578c1696ad19ca58aaff268c117d530fbe0c14de
-U
-%src/types/interface/user.interface.ts,a\0\a064103042b9b0cb490a03b90f132bb53eba27e6
-L
-src/types/interface/index.ts,2\d\2d6af1d889c560c0653a8c60e1702560fed00774
-M
-src/stores/loginUser.store.ts,4\e\4edda1640a5f29694125361d338d72eae28ffefd
-N
-src/stores/login-user.store.ts,0\1\0196e62a45f8725ac1c5f0e91292db0b4be228b2
-I
-src/stores/board.store.ts,7\d\7daf61f9560eef833d32d7e0208e1e721c67e859
 R
 "src/apis/dto/request/auth/index.ts,0\e\0ee315f903e1552f652e4dac384fd7bfe3db7fa5
 `
@@ -69,8 +59,6 @@ b
 2src/apis/dto/response/auth/sign-up-response.dto.ts,d\a\da2d631802d3a0f05b44df0a348243288b7861f0
 K
 src/types/user.interface.ts,6\d\6de3679cc165986cdbbfafb2bac81ad1ce5a4a3b
-I
-src/stores/LoginUser.java,b\5\b524192664aaab0d8dd84abee914654eac8651c2
 Q
 !src/types/login-user.interface.ts,6\8\68d5be04235bb6704206672af9d3130fa5ef330f
 B
@@ -79,3 +67,13 @@ k
 ;src/apis/dto/response/user/get-sign-in-user.response.dto.ts,4\3\43a2d745899e41b2d5bdd5af3c38d172a341f3ec
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
+R
+"src/views/Authentication/style.css,6\9\696c0cc9726dba3d3264fe27033a79a9d6e1f0f1
+I
+src/global/GlobalStyle.ts,c\d\cd993daf155ee0db9868a2c10e35ff3db4f1c2a4
+O
+src/layouts/Container/style.css,0\e\0e1f6072e3e141ef66b49a2714f6dce08b62f42c
+H
+src/views/Main/style.css,2\0\20673aeffa6f5745674b3b22cd069b727fa062f7
+<
+src/logo.svg,6\d\6d3a8cd532ece5b4ddbd4b3b6a678ba686d300bc
