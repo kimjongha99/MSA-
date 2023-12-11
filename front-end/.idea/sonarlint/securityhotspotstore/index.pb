@@ -1,7 +1,5 @@
 
 A
-src/setupTests.ts,3\9\39129446b425a1d640160c068e4194e96639eedf
-A
 src/apis/index.ts,c\9\c925c854ffbfed0fa7bb9e45873c1f2a68e0e87b
 S
 #src/apis/dto/response/user/index.ts,0\3\0347c7d062fb97abe5bd8456e74e776ebe1beefe
@@ -69,11 +67,13 @@ k
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 R
 "src/views/Authentication/style.css,6\9\696c0cc9726dba3d3264fe27033a79a9d6e1f0f1
-I
-src/global/GlobalStyle.ts,c\d\cd993daf155ee0db9868a2c10e35ff3db4f1c2a4
 O
 src/layouts/Container/style.css,0\e\0e1f6072e3e141ef66b49a2714f6dce08b62f42c
 H
 src/views/Main/style.css,2\0\20673aeffa6f5745674b3b22cd069b727fa062f7
 <
 src/logo.svg,6\d\6d3a8cd532ece5b4ddbd4b3b6a678ba686d300bc
+S
+#src/apis/dto/response/auth/index.ts,c\c\cc68369ac62b3ba68c73724512cb1cff083a1bb3
+=
+tsconfig.json,6\1\61ebb9fd6e8cf9082658121d5d81e297791dacd0

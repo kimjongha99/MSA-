@@ -64,12 +64,6 @@ export default function Header() {
 
     }
 
-    useEffect(() => {    //          effect: 마운트시에만 실행될 함수          //
-        if (cookies.email) {
-            const user: LoginUser = { email: cookies.email, nickname: '주코야키', profileImage: null };
-            setUser(user);
-        }
-    }, []);
 
 
 
@@ -83,6 +77,8 @@ export default function Header() {
                     </div>
                     <div className='header-logo-text'>{'GGWP'}</div>
                 </div>
+                <div>매칭 해요</div>
+                <div>검색 해요</div>
                 <div className='header-right-box'>
                     { isMainPage && (<LoginMyPageButton />) }
                 </div>
